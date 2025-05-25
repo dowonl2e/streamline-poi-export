@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+group = 'io.github.dowonl2e'
+version = '1.0.0'
+
+jar {
+    archiveBaseName.set('streamline-poi-export')
+    archiveVersion.set(version)
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    poiVersion = project.hasProperty('poiVersion') ? project.poiVersion : '5.4.1'
+}
+
+dependencies {
+
+    compileOnly "org.apache.poi:poi:$poiVersion"
+    compileOnly "org.apache.poi:poi-ooxml:$poiVersion"
+
+    testImplementation "org.apache.poi:poi:$poiVersion"
+    testImplementation "org.apache.poi:poi-ooxml:$poiVersion"
+    testImplementation platform("org.junit:junit-bom:5.9.1")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release.set(11) // 지원 대상 JDK 버전
+}

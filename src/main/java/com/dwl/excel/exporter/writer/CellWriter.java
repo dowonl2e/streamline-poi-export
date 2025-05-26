@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 public final class CellWriter {
 
-  private final String DEFAULT_STYLE_KEY = "DEFAULT_STYLE";
+  private static final String DEFAULT_STYLE_KEY = "DEFAULT_STYLE";
   private final Sheet sheet;
 
   private final CellStyle defaultStyle;

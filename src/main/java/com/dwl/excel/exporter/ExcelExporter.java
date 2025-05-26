@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public abstract class ExcelExporter {
 
-  private final String DEFAULT_SHEET_NAME = "Sheet";
+  private static final String DEFAULT_SHEET_NAME = "Sheet";
   private final SpreadsheetVersion version;
 
   protected Workbook workbook;
@@ -32,7 +32,7 @@ public abstract class ExcelExporter {
 
   protected int currentRow = 0;
 
-  public ExcelExporter(
+  protected ExcelExporter(
       Workbook workbook,
       SpreadsheetVersion spreadsheetVersion,
       Optional<CellStyleApplier> defaultHeaderCellStyleApplier,

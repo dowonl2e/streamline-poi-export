@@ -6,6 +6,7 @@ import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class SXSSFExcelExporter extends ExcelExporter {
@@ -85,6 +86,7 @@ public class SXSSFExcelExporter extends ExcelExporter {
 
   @Override
   protected void flush() throws Exception {
+    Objects.requireNonNull(sheet, "sheet must not be null");
     int flushNumber = currentRow%flushCount;
     if(flushNumber == 0){
       ((SXSSFSheet)sheet).flushRows(flushCount);

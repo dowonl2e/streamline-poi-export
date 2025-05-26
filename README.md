@@ -2,12 +2,16 @@
 
 이 모듈은 Apache POI를 사용하여 Excel 다운로드 구현을 보다 간소화합니다.
 
+<br/>
+
 ## 지원 버전
 
 | Component       | Supported Version(s) |
 |-----------------|----------------------|
 | Java            | 11, 17, 21, 24       |
 | Apache POI      | 5.2.3+               |
+
+<br/>
 
 ## 필수 적용 사항
 
@@ -37,7 +41,43 @@
           </dependency>
       </dependencies>
       ```
-     
+
+<br/>
+
+## 지원 기능
+
+### 엑셀 버전
+
+- Excel 2007 이상 xlsx 포맷 (XSSF와 SXSSF만 지원)
+
+### 셀 스타일 (CellStyle)
+
+- 텍스트 정렬
+- 테두리 스타일 및 색상
+- 배경색
+- 텍스트 줄바꿈
+
+### 폰트 (Font)
+
+- 색상
+- 굵기
+- 밑줄
+- 문자 집합
+- 사이즈
+- 취소선
+- 기울임체
+
+### 병합
+
+- Apache POI와 동일
+
+### 셀(Cell)
+
+- 데이터 타입: String, RichTextString, Integer, Long, Double, Boolean, java.util.Date, java.time.LocalDate, java.time.LocalDateTime
+- 커스텀 객체: 모듈의 Exportable 인터페이스를 구현한 객체
+
+<br/>
+
 ## 사용 예시
 
 ### 1. 셀 스타일 적용을 위한 폰트 및 스타일 적용자 구현 예시

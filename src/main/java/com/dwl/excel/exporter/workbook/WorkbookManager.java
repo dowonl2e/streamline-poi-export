@@ -10,11 +10,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class WorkbookBuilder {
+public class WorkbookManager {
 
   private final Workbook workbook;
 
-  public WorkbookBuilder(Workbook workbook){
+  public WorkbookManager(Workbook workbook){
     this.workbook = workbook;
   }
 

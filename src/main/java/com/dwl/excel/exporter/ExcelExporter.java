@@ -3,7 +3,7 @@ package com.dwl.excel.exporter;
 import com.dwl.excel.MaximumExceededException;
 import com.dwl.excel.exporter.sheet.SheetConfigurer;
 import com.dwl.excel.exporter.style.StyleRegistry;
-import com.dwl.excel.exporter.workbook.WorkbookBuilder;
+import com.dwl.excel.exporter.workbook.WorkbookManager;
 import com.dwl.excel.exporter.writer.CellWriter;
 import com.dwl.excel.style.CellStyleApplier;
 import com.dwl.excel.style.font.FontStyleApplier;
@@ -26,7 +26,7 @@ public abstract class ExcelExporter {
   protected Workbook workbook;
   protected Sheet sheet;
 
-  private final WorkbookBuilder workbookBuilder;
+  private final WorkbookManager workbookManager;
   private final StyleRegistry styleRegistry;
   private SheetConfigurer sheetConfigurer;
 
@@ -42,10 +42,10 @@ public abstract class ExcelExporter {
 
     this.workbook = workbook;
     this.version = spreadsheetVersion;
-    this.workbookBuilder = new WorkbookBuilder(this.workbook);
+    this.workbookManager = new WorkbookManager(this.workbook);
     this.styleRegistry = new StyleRegistry(
-        defaultHeaderCellStyleApplier.map(workbookBuilder::createStyledCellStyle).orElse(null),
-        defaultBodyCellStyleApplier.map(workbookBuilder::createStyledCellStyle).orElse(null)
+        defaultHeaderCellStyleApplier.map(workbookManager::createStyledCellStyle).orElse(null),
+        defaultBodyCellStyleApplier.map(workbookManager::createStyledCellStyle).orElse(null)
     );
   }
 
@@ -55,7 +55,7 @@ public abstract class ExcelExporter {
 
   public SheetConfigurer createSheet(String sheetName){
     Objects.requireNonNull(sheetName, "sheetName must not be null");
-    this.sheet = this.workbookBuilder.createSheet(sheetName);
+    this.sheet = this.workbookManager.createSheet(sheetName);
     this.sheetConfigurer = new SheetConfigurer(this.sheet);
     this.currentRow = 0;
     return this.sheetConfigurer;
@@ -64,7 +64,7 @@ public abstract class ExcelExporter {
   public ExcelExporter createCellStyle(String styleKey, CellStyleApplier cellStyleApplier){
     Objects.requireNonNull(styleKey, "styleKey must not be null");
     Objects.requireNonNull(cellStyleApplier, "cellStyleApplier must not be null");
-    CellStyle cellStyle = this.workbookBuilder.createStyledCellStyle(cellStyleApplier);
+    CellStyle cellStyle = this.workbookManager.createStyledCellStyle(cellStyleApplier);
     this.styleRegistry.addCellStyle(styleKey, cellStyle);
     return this;
   }
@@ -72,7 +72,7 @@ public abstract class ExcelExporter {
   public ExcelExporter createFont(String fontKey, FontStyleApplier fontStyler){
     Objects.requireNonNull(fontKey, "fontKey must not be null");
     Objects.requireNonNull(fontStyler, "fontStyler must not be null");
-    Font font = this.workbookBuilder.createStyledFont(fontStyler);
+    Font font = this.workbookManager.createStyledFont(fontStyler);
     this.styleRegistry.addFont(fontKey, font);
     return this;
   }
@@ -82,15 +82,15 @@ public abstract class ExcelExporter {
   }
 
   public String getSheetName(int index){
-    return this.workbookBuilder.getSheetName(index);
+    return this.workbookManager.getSheetName(index);
   }
 
   public int getCellStyleCount(){
-    return this.workbookBuilder.getCellStyleCount();
+    return this.workbookManager.getCellStyleCount();
   }
 
   public int getFontCount(){
-    return this.workbookBuilder.getFontCount();
+    return this.workbookManager.getFontCount();
   }
 
   public ExcelExporter nextRow(){
@@ -145,8 +145,8 @@ public abstract class ExcelExporter {
 
   public void export(OutputStream stream) throws IOException{
     Objects.requireNonNull(stream, "stream must not be null");
-    this.workbookBuilder.write(stream);
-    this.workbookBuilder.close();
+    this.workbookManager.write(stream);
+    this.workbookManager.close();
     stream.flush();
     stream.close();
   }

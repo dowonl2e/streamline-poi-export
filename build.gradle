@@ -8,8 +8,8 @@ java {
     }
 }
 
-group = 'io.github.dowonl2e'
-version = '1.0.0'
+group = project.projectGroup
+version = project.projectVersion
 
 jar {
     archiveBaseName.set('streamline-poi-export')
